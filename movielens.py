@@ -22,7 +22,22 @@ def questions():
     print('1. How many rows and columns are there in the dataset?')
     print('Answer: There are', rows-1, 'rows and', len(dic.keys()), 'columns in the dataset.')
 
-   
+    # question 2a
+    rating_zeros=0
+    for value in dic["rating"].values():
+        if value==0.0:
+            rating_zeros+=1
+
+    print('How many zeros were given as ratings in the dataset?')
+    print('Answer: ', rating_zeros, 'movies rated with 0')
+
+    # question 2b
+    rating_threes=0
+    for value in dic["rating"].values():
+        if value==3.0:
+            rating_threes+=1
+    print('How many threes were given as ratings in the dataset?')
+    print('Answer: ', rating_threes, 'movies rated with 3')
 
 questions()
 
