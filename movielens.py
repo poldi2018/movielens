@@ -20,7 +20,7 @@ def questions():
         rows = rows+1
 
     print('1. How many rows and columns are there in the dataset?')
-    print('Answer: There are', rows-1, 'rows and', len(dic.keys()), 'columns in the dataset.')
+    print('Answer: There are', rows-1, 'rows and', len(dic.keys()), 'columns in the dataset. \r\n')
 
     # question 2a
     rating_zeros=0
@@ -29,7 +29,7 @@ def questions():
             rating_zeros+=1
 
     print('How many zeros were given as ratings in the dataset?')
-    print('Answer: ', rating_zeros, 'movies rated with 0')
+    print('Answer: ', rating_zeros, 'movies rated with 0 \r\n')
 
     # question 2b
     rating_threes=0
@@ -37,7 +37,18 @@ def questions():
         if value==3.0:
             rating_threes+=1
     print('How many threes were given as ratings in the dataset?')
-    print('Answer: ', rating_threes, 'movies rated with 3')
+    print('Answer: ', rating_threes, 'movies rated with 3 \r\n')
+
+
+    # question 3
+    movies = 0
+    for movie in dic["movieId"]:
+        movies+=1
+    print('How many different movies are there in the dataset?')
+    print('Answer: There are', movies-1, 'movies in the dataset. \r\n')
+
+
+
 
 questions()
 
