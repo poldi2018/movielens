@@ -1,16 +1,19 @@
 import pyreadr
-#result = pyreadr.read_r('./data/dataset.rds')
-result = pyreadr.read_r('./data/validation.rds')
+import json
 
+## result = pyreadr.read_r('./data/dataset.rds')
+result = pyreadr.read_r('./data/validation.rds')
 df=result[None]
-# conversion of dataframe to dictionary
 dic = df.to_dict()
+# conversion of dataframe to dictionary
+# with open('test.json', 'r') as f:
+#     content = json.load(f)
+#     dic = dict(content)
 # get column names
 # keys: userId, movieId, rating, timestamp, title, genres
 columns = list(dic.keys())
 
 def get_rows():
-    # question 1
     rows = 0
     for row in dic["title"]:
         rows += 1
@@ -26,12 +29,12 @@ def ratecount(float):
 
 def moviecount():
     movie_count = 0
-    x = df.duplicated()
-    if x.any():
-        print('There are duplicates!')
-        df.drop_duplicates(inplace = True)
-    else:
-        print('There are NO duplicates!')
+    # x = df.duplicated()
+    # if x.any():
+    #     print('There are duplicates!')
+    #     df.drop_duplicates(inplace = True)
+    # else:
+    #     print('There are NO duplicates!')
     for movie in dic["movieId"]:
         movie_count += 1
     return movie_count
@@ -52,24 +55,32 @@ def has_been_rated(str):
 
 def ratings_genre(dict):
     genres = dict
-    counter=0
     for key, value in dic['genres'].items():
         for key2 in genres.keys():
             if key2 in value:
                 if has_been_rated(key):
                     genres[key2] = genres[key2]+1
-        counter+=1
-        # this testcounter was used to keep the dataset shorter
-        # if counter == 200:
-        #     break
     return genres
 
+def most_ratings(dict):
+    movies_to_check=dict
+    winner = {'winner': {'title': '', 'ratings': 0}}
+    for movie in movies_to_check:
+        for key, value in dic['title'].items():
+            if movie in value:
+                if dic['rating'][key] != 0.0:
+                    movies_to_check[movie] +=1 
+    for key, value in movies_to_check.items():
+        if value > winner['winner']['ratings']:
+            winner['winner']['title'] = key
+            winner['winner']['ratings'] = value
+    movies_to_check.update(winner)
+    return movies_to_check
 
 def questions():
     # question 1
     rows=get_rows()
-    print('The movielens quizz! \r\n \r\n1. How many rows and columns are \
-            there in the dataset?')
+    print('The movielens quizz! \r\n \r\n1. How many rows and columns are there in the dataset?')
     print('Answer: There are', rows, 'rows and', len(columns), 'columns in the dataset. \r\n')
 
     # question 2a
@@ -95,9 +106,23 @@ def questions():
     # question 5
     genres = {'Drama': 0, 'Comedy': 0, 'Thriller': 0, 'Romance': 0}
     returned_ratings = ratings_genre(genres)
-    print('How many movie ratings are in each of the following genres in the dataset?')
+    print('How many movie ratings are in each of the following genres in the dataset?')
     print('Drama: ', returned_ratings['Drama'], 'ratings |', 'Comedy: ',returned_ratings['Comedy'], 'ratings |')
-    print( 'Thriller: ', returned_ratings['Thriller'], 'ratings |', 'Romance: ', returned_ratings['Romance'], 'ratings')
+    print( 'Thriller: ', returned_ratings['Thriller'], 'ratings |', 'Romance: ', returned_ratings['Romance'], 'ratings |')
 
+    # question 6
+    movies_to_check = {'Forrest Gump': 0, 'Jurassic Park (1993)': 0,
+                       'Pulp Fiction': 0, 'Shawshank Redemption': 0,
+                       'Speed 2: Cruise Control': 0}
+    checked_movies = most_ratings(movies_to_check)
+    print('Which movie has the greatest number of ratings?')
+    print('Forrest Gump: ', checked_movies['Forrest Gump'], 'ratings |',
+          'Jurassic Park (1993) ',checked_movies['Jurassic Park (1993)'],
+          'ratings |')
+    print('Pulp Fiction: ', checked_movies['Pulp Fiction'], 'ratings |',
+          'The Shawshank Redemption: ', checked_movies['Shawshank Redemption'], 'ratings |')
+    print('Speed 2: Cruise Control: ', checked_movies['Speed 2: Cruise Control'], 'ratings |')
+    
+    print('THE WINNER IS:', checked_movies['winner']['title'], 'with', checked_movies['winner']['ratings'], 'ratings')
 
 questions()
