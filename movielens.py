@@ -1,7 +1,7 @@
 import pyreadr
 
-# result = pyreadr.read_r('./data/dataset.rds')
-result = pyreadr.read_r('./data/validation.rds')
+result = pyreadr.read_r('./data/dataset.rds')
+#result = pyreadr.read_r('./data/validation.rds')
 df=result[None]
 dic = df.to_dict()
 # get column names
@@ -119,14 +119,14 @@ def questions():
     returned_ratings = ratings_genre(genres)
     print('Question 5: How many movie ratings are in each of the following genres in the dataset?')
     print('Drama: ', returned_ratings['Drama'], 'ratings |', 'Comedy: ',returned_ratings['Comedy'], 'ratings |')
-    print( 'Thriller: ', returned_ratings['Thriller'], 'ratings |', 'Romance: ', returned_ratings['Romance'], 'ratings |')
+    print( 'Thriller: ', returned_ratings['Thriller'], 'ratings |', 'Romance: ', returned_ratings['Romance'], 'ratings | \r\n')
 
     # question 6
     movies_to_check = {'Forrest Gump': 0, 'Jurassic Park (1993)': 0,
                        'Pulp Fiction': 0, 'Shawshank Redemption': 0,
                        'Speed 2: Cruise Control': 0}
     checked_movies = most_ratings(movies_to_check)
-    print('Question 6: Which movie has the greatest number of ratings? \r\n')
+    print('Question 6: Which movie has the greatest number of ratings?')
     print('Forrest Gump: ', checked_movies['Forrest Gump'], 'ratings |',
           'Jurassic Park (1993) ',checked_movies['Jurassic Park (1993)'],
           'ratings |')
