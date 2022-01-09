@@ -24,12 +24,12 @@ def ratecount(float):
 
 def moviecount():
     movie_count = 0
-    # x = df.duplicated()
-    # if x.any():
-    #     print('There are duplicates!')
-    #     df.drop_duplicates(inplace = True)
-    # else:
-    #     print('There are NO duplicates!')
+    x = df.duplicated()
+    if x.any():
+        print('There are duplicates!')
+        df.drop_duplicates(inplace = True)
+    else:
+        print('There are NO duplicates!')
     for movie in dic["movieId"]:
         movie_count += 1
     return movie_count
